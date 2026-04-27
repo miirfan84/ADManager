@@ -1,0 +1,8 @@
+{
+  "Id":          "SyncManager",
+  "TabTitle":    "🔄 Sync Manager",
+  "Description": "Connect to sync.alec.com and manage Egnyte sync scheduled tasks",
+  "Version":     "1.0",
+  "Author":      "AD Manager Core",
+  "Order":       20
+}

@@ -1,0 +1,302 @@
+<!-- Plugins\ComputerMapper\Tab.xaml -->
+<Grid xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      Background="#1A252F" Margin="6">
+
+    <Grid.Resources>
+        <!-- Button template -->
+        <ControlTemplate x:Key="RoundBtn" TargetType="Button">
+            <Border x:Name="Bd" Background="{TemplateBinding Background}"
+                    CornerRadius="4" Padding="{TemplateBinding Padding}">
+                <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+            </Border>
+            <ControlTemplate.Triggers>
+                <Trigger Property="IsMouseOver" Value="True"><Setter TargetName="Bd" Property="Opacity" Value="0.82"/></Trigger>
+                <Trigger Property="IsPressed"   Value="True"><Setter TargetName="Bd" Property="Opacity" Value="0.65"/></Trigger>
+                <Trigger Property="IsEnabled"   Value="False"><Setter TargetName="Bd" Property="Opacity" Value="0.35"/></Trigger>
+            </ControlTemplate.Triggers>
+        </ControlTemplate>
+
+        <Style x:Key="Btn" TargetType="Button">
+            <Setter Property="Foreground"      Value="White"/>
+            <Setter Property="FontSize"        Value="12"/>
+            <Setter Property="FontWeight"      Value="SemiBold"/>
+            <Setter Property="Padding"         Value="10,5"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Cursor"          Value="Hand"/>
+            <Setter Property="Template"        Value="{StaticResource RoundBtn}"/>
+        </Style>
+        <Style x:Key="BlueBtn"   BasedOn="{StaticResource Btn}" TargetType="Button"><Setter Property="Background" Value="#2980B9"/></Style>
+        <Style x:Key="GreenBtn"  BasedOn="{StaticResource Btn}" TargetType="Button"><Setter Property="Background" Value="#27AE60"/></Style>
+        <Style x:Key="OrangeBtn" BasedOn="{StaticResource Btn}" TargetType="Button"><Setter Property="Background" Value="#E67E22"/></Style>
+        <Style x:Key="GrayBtn"   BasedOn="{StaticResource Btn}" TargetType="Button"><Setter Property="Background" Value="#7F8C8D"/></Style>
+        <Style x:Key="RedBtn"    BasedOn="{StaticResource Btn}" TargetType="Button"><Setter Property="Background" Value="#C0392B"/></Style>
+        <Style x:Key="PurpleBtn" BasedOn="{StaticResource Btn}" TargetType="Button"><Setter Property="Background" Value="#8E44AD"/></Style>
+
+        <!-- Filter toggle button template -->
+        <ControlTemplate x:Key="FilterBtnTpl" TargetType="ToggleButton">
+            <Border x:Name="Bd" Background="{TemplateBinding Background}"
+                    CornerRadius="4" Padding="10,5" BorderThickness="2"
+                    BorderBrush="Transparent">
+                <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+            </Border>
+            <ControlTemplate.Triggers>
+                <Trigger Property="IsChecked" Value="True">
+                    <Setter TargetName="Bd" Property="BorderBrush" Value="White"/>
+                    <Setter TargetName="Bd" Property="Opacity" Value="1"/>
+                </Trigger>
+                <Trigger Property="IsChecked" Value="False">
+                    <Setter TargetName="Bd" Property="Opacity" Value="0.6"/>
+                </Trigger>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter TargetName="Bd" Property="Opacity" Value="1"/>
+                </Trigger>
+            </ControlTemplate.Triggers>
+        </ControlTemplate>
+
+        <Style x:Key="FilterBtn" TargetType="ToggleButton">
+            <Setter Property="Foreground"      Value="White"/>
+            <Setter Property="FontSize"        Value="11"/>
+            <Setter Property="FontWeight"      Value="SemiBold"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Cursor"          Value="Hand"/>
+            <Setter Property="Margin"          Value="0,0,4,0"/>
+            <Setter Property="Template"        Value="{StaticResource FilterBtnTpl}"/>
+        </Style>
+
+        <!-- DataGrid -->
+        <Style x:Key="DarkGrid" TargetType="DataGrid">
+            <Setter Property="Background"               Value="#1E2D3D"/>
+            <Setter Property="Foreground"               Value="#ECF0F1"/>
+            <Setter Property="BorderBrush"              Value="#34495E"/>
+            <Setter Property="BorderThickness"          Value="1"/>
+            <Setter Property="RowBackground"            Value="#243447"/>
+            <Setter Property="AlternatingRowBackground" Value="#1E2D3D"/>
+            <Setter Property="GridLinesVisibility"      Value="All"/>
+            <Setter Property="HorizontalGridLinesBrush" Value="#2C3E50"/>
+            <Setter Property="VerticalGridLinesBrush"   Value="#2C3E50"/>
+            <Setter Property="SelectionMode"            Value="Extended"/>
+            <Setter Property="SelectionUnit"            Value="FullRow"/>
+            <Setter Property="AutoGenerateColumns"      Value="False"/>
+            <Setter Property="CanUserAddRows"           Value="False"/>
+            <Setter Property="CanUserDeleteRows"        Value="False"/>
+            <Setter Property="IsReadOnly"               Value="True"/>
+            <Setter Property="HeadersVisibility"        Value="Column"/>
+            <Setter Property="FontSize"                 Value="12"/>
+        </Style>
+        <Style TargetType="DataGridColumnHeader">
+            <Setter Property="Background"      Value="#2C3E50"/>
+            <Setter Property="Foreground"      Value="#ECF0F1"/>
+            <Setter Property="FontWeight"      Value="SemiBold"/>
+            <Setter Property="Padding"         Value="8,5"/>
+            <Setter Property="BorderBrush"     Value="#34495E"/>
+            <Setter Property="BorderThickness" Value="0,0,1,1"/>
+        </Style>
+        <Style TargetType="DataGridRow">
+            <Setter Property="Height" Value="26"/>
+            <Style.Triggers>
+                <Trigger Property="IsSelected" Value="True">
+                    <Setter Property="Background" Value="#2471A3"/>
+                    <Setter Property="Foreground" Value="White"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+    </Grid.Resources>
+
+    <Grid.RowDefinitions>
+        <RowDefinition Height="Auto"/>  <!-- toolbar row 1: import + whatif + stats -->
+        <RowDefinition Height="Auto"/>  <!-- toolbar row 2: progress bar            -->
+        <RowDefinition Height="Auto"/>  <!-- toolbar row 3: filter buttons + search -->
+        <RowDefinition Height="*"/>     <!-- data grid                              -->
+        <RowDefinition Height="Auto"/>  <!-- bottom action bar                      -->
+    </Grid.RowDefinitions>
+
+    <!-- ═══════════ ROW 0 — Top toolbar ═════════════════════════════════════ -->
+    <Border Grid.Row="0" Background="#1E2D3D"
+            BorderBrush="#34495E" BorderThickness="0,0,0,1" Padding="10,8">
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="8"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="15"/>
+                <ColumnDefinition Width="Auto"/> <!-- 4: File Path -->
+                <ColumnDefinition Width="*"/>    <!-- 5: Spacer -->
+                <ColumnDefinition Width="Auto"/> <!-- 6: Live Counters -->
+                <ColumnDefinition Width="15"/>   <!-- 7: Spacer -->
+                <ColumnDefinition Width="Auto"/> <!-- 8: WhatIf Badge -->
+            </Grid.ColumnDefinitions>
+
+            <!-- Buttons -->
+            <StackPanel Orientation="Horizontal" Grid.Column="0">
+                <Button x:Name="CM_BtnImport" Content="📁 Import CSV / XLSX" Width="140" Height="28" Style="{StaticResource BlueBtn}" Margin="0,0,5,0" />
+                <Button x:Name="CM_BtnClearAll" Content="🗑 Clear" Width="70" Height="28" Style="{StaticResource GrayBtn}" Margin="0,0,10,0" ToolTip="Reset all data and start over" />
+                <Button x:Name="CM_BtnFetchAD" Content="☁ Fetch AD Data" Width="130" Height="28" Style="{StaticResource OrangeBtn}" IsEnabled="False" Margin="0,0,5,0" />
+                <Button x:Name="CM_BtnDeepScan" Content="🔍 In AD Only" Width="110" Height="28" Style="{StaticResource PurpleBtn}" IsEnabled="False" ToolTip="Find computers in AD that are not in your imported file" />
+            </StackPanel>
+
+            <!-- File label -->
+            <TextBlock x:Name="CM_TxtFile" Grid.Column="4"
+                       Foreground="#7F8C8D" FontSize="11"
+                       VerticalAlignment="Center"
+                       Text="No file loaded"/>
+
+            <!-- Live counters -->
+            <StackPanel Grid.Column="6" Orientation="Horizontal" VerticalAlignment="Center">
+                <TextBlock Foreground="#7F8C8D" FontSize="11" Margin="0,0,6,0" Text="Rows:"/>
+                <TextBlock x:Name="CM_CntTotal"   Foreground="White"   FontSize="11" FontWeight="Bold" Margin="0,0,14,0" Text="0"/>
+                <TextBlock Foreground="#27AE60"    FontSize="11" Margin="0,0,4,0" Text="✅"/>
+                <TextBlock x:Name="CM_CntOK"      Foreground="#27AE60" FontSize="11" FontWeight="Bold" Margin="0,0,14,0" Text="0"/>
+                <TextBlock Foreground="#2980B9"    FontSize="11" Margin="0,0,4,0" Text="🔄"/>
+                <TextBlock x:Name="CM_CntPending" Foreground="#2980B9" FontSize="11" FontWeight="Bold" Margin="0,0,14,0" Text="0"/>
+                <TextBlock Foreground="#F39C12"    FontSize="11" Margin="0,0,4,0" Text="⚠"/>
+                <TextBlock x:Name="CM_CntWarn"    Foreground="#F39C12" FontSize="11" FontWeight="Bold" Margin="0,0,14,0" Text="0"/>
+                <TextBlock Foreground="#E74C3C"    FontSize="11" Margin="0,0,4,0" Text="❌"/>
+                <TextBlock x:Name="CM_CntErr"     Foreground="#E74C3C" FontSize="11" FontWeight="Bold" Margin="0,0,14,0" Text="0"/>
+                <TextBlock Foreground="#8E44AD"    FontSize="11" Margin="0,0,4,0" Text="🔍"/>
+                <TextBlock x:Name="CM_CntExtra"   Foreground="#8E44AD" FontSize="11" FontWeight="Bold" Text="0"/>
+            </StackPanel>
+
+            <!-- WhatIf toggle -->
+            <Border Grid.Column="8" CornerRadius="4" Padding="10,5"
+                    x:Name="CM_WhatIfBadge" Background="#27AE60"
+                    Cursor="Hand" ToolTip="Toggle Preview (ON) vs Write (OFF) mode">
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="🛡 WhatIf: " Foreground="White" FontSize="11" FontWeight="Bold" VerticalAlignment="Center"/>
+                    <TextBlock x:Name="CM_WhatIfLabel" Foreground="White" FontSize="11" FontWeight="Bold"
+                               VerticalAlignment="Center" Text="ON"/>
+                    <ToggleButton x:Name="CM_WhatIfToggle"
+                                  Width="0" Height="0" Opacity="0"
+                                  IsChecked="True"/>
+                </StackPanel>
+            </Border>
+        </Grid>
+    </Border>
+
+    <!-- ═══════════ ROW 1 — Progress bar ════════════════════════════════════ -->
+    <Grid Grid.Row="1" Margin="10,6,10,0">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="Auto"/>
+        </Grid.ColumnDefinitions>
+        <ProgressBar x:Name="CM_Progress" Grid.Column="0"
+                     Height="6" Minimum="0" Maximum="100" Value="0"
+                     Background="#2C3E50" Foreground="#2980B9"
+                     BorderThickness="0" Visibility="Collapsed"/>
+        <TextBlock x:Name="CM_ProgressLabel" Grid.Column="1"
+                   Foreground="#7F8C8D" FontSize="10"
+                   VerticalAlignment="Center" Margin="8,0,0,0"
+                   Visibility="Collapsed"/>
+    </Grid>
+
+    <!-- ═══════════ ROW 2 — Filter buttons + search ══════════════════════════ -->
+    <Border Grid.Row="2" Background="#141E27" Padding="10,6">
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+
+            <!-- Filter buttons -->
+            <WrapPanel Grid.Column="0" Orientation="Horizontal" VerticalAlignment="Center">
+                <ToggleButton x:Name="CM_FAll"     Content="All"               Background="#566573" IsChecked="True" Style="{StaticResource FilterBtn}"/>
+                <ToggleButton x:Name="CM_FOK"      Content="✅ No Action"      Background="#27AE60" Style="{StaticResource FilterBtn}"/>
+                <ToggleButton x:Name="CM_FPending" Content="🔄 Pending"        Background="#2980B9" Style="{StaticResource FilterBtn}"/>
+                <ToggleButton x:Name="CM_FWarn"    Content="⚠ Warning"         Background="#D4AC0D" Style="{StaticResource FilterBtn}"/>
+                <ToggleButton x:Name="CM_FNotFound" Content="❌ Not in AD"     Background="#C0392B" Style="{StaticResource FilterBtn}"/>
+                <ToggleButton x:Name="CM_FNoUser"  Content="👤 No User"        Background="#E67E22" Style="{StaticResource FilterBtn}"/>
+                <ToggleButton x:Name="CM_FMulti"   Content="🖥 Multi-Computer" Background="#8E44AD" Style="{StaticResource FilterBtn}"/>
+                <ToggleButton x:Name="CM_FUpdated" Content="✅ Updated"        Background="#1A8754" Style="{StaticResource FilterBtn}"/>
+                <ToggleButton x:Name="CM_FFailed"  Content="❌ Failed"         Background="#922B21" Style="{StaticResource FilterBtn}"/>
+                <ToggleButton x:Name="CM_FExtra"   Content="🔍 In AD Only"     Background="#8E44AD" Style="{StaticResource FilterBtn}"/>
+            </WrapPanel>
+
+            <!-- Search -->
+            <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Center">
+                <TextBox x:Name="CM_TxtSearch"
+                         Width="150" Height="26"
+                         Background="#243447" Foreground="#ECF0F1"
+                         BorderBrush="#4A6278" BorderThickness="1"
+                         Padding="6,3" CaretBrush="White"
+                         ToolTip="Filter grid by any column value"/>
+                <Button x:Name="CM_BtnSearch"
+                        Content="🔍" Width="28" Height="26" Margin="4,0,0,0"
+                        Background="#2980B9" Foreground="White"
+                        BorderThickness="0" Cursor="Hand"
+                        Style="{StaticResource BlueBtn}" Padding="2,0"/>
+                <Button x:Name="CM_BtnClearSearch"
+                        Content="✖" Width="26" Height="26" Margin="2,0,0,0"
+                        Background="#566573" Foreground="White"
+                        BorderThickness="0" Cursor="Hand"
+                        Style="{StaticResource GrayBtn}" Padding="2,0"/>
+            </StackPanel>
+        </Grid>
+    </Border>
+
+    <!-- ═══════════ ROW 3 — Data Grid ═══════════════════════════════════════ -->
+    <DataGrid x:Name="CM_Grid" Grid.Row="3"
+              Style="{StaticResource DarkGrid}"
+              Margin="0,4,0,0">
+        <DataGrid.Columns>
+            <DataGridTextColumn Header="Status"            Binding="{Binding StatusLabel}"     Width="110" MinWidth="90"/>
+            <DataGridTextColumn Header="Tag"               Binding="{Binding TAG}"              Width="90"  MinWidth="70"/>
+            <DataGridTextColumn Header="Computer name"     Binding="{Binding ComputerName}"     Width="120" MinWidth="100"/>
+            <DataGridTextColumn Header="SD Status"         Binding="{Binding SDStatus}"         Width="110" MinWidth="80"/>
+            <DataGridTextColumn Header="PC Enabled"        Binding="{Binding ComputerEnabled}"  Width="80"  MinWidth="60"/>
+            <DataGridTextColumn Header="Emp. ID"           Binding="{Binding EmpID}"            Width="75"  MinWidth="60"/>
+            <DataGridTextColumn Header="Description (new)" Binding="{Binding DescNew}"          Width="160" MinWidth="100"/>
+            <DataGridTextColumn Header="Managed by (new)"  Binding="{Binding SAM}"              Width="160" MinWidth="100"/>
+            <DataGridTextColumn Header="Description (cur)" Binding="{Binding DescCurrent}"      Width="160" MinWidth="100"/>
+            <DataGridTextColumn Header="managed by (cur)"   Binding="{Binding ManagedByCurrent}" Width="160" MinWidth="100"/>
+            <DataGridTextColumn Header="Office"            Binding="{Binding Office}"           Width="110" MinWidth="80"/>
+            <DataGridTextColumn Header="OU"                Binding="{Binding CurrentOU}"        Width="200" MinWidth="120"/>
+            <DataGridTextColumn Header="Result"            Binding="{Binding ResultNote}"       Width="200" MinWidth="120"/>
+        </DataGrid.Columns>
+    </DataGrid>
+
+    <!-- ═══════════ ROW 4 — Bottom action bar ═══════════════════════════════ -->
+    <Border Grid.Row="4" Background="#141E27"
+            BorderBrush="#2C3E50" BorderThickness="0,1,0,0" Padding="10,7">
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/> <!-- 0: Run -->
+                <ColumnDefinition Width="8"/>    <!-- 1: Spacer -->
+                <ColumnDefinition Width="Auto"/> <!-- 2: Stop -->
+                <ColumnDefinition Width="20"/>   <!-- 3: Spacer -->
+                <ColumnDefinition Width="*"/>    <!-- 4: Status Bar -->
+                <ColumnDefinition Width="15"/>   <!-- 5: Spacer -->
+                <ColumnDefinition Width="Auto"/> <!-- 6: Selection count -->
+                <ColumnDefinition Width="20"/>   <!-- 7: Spacer -->
+                <ColumnDefinition Width="Auto"/> <!-- 8: Export button -->
+            </Grid.ColumnDefinitions>
+
+            <Button x:Name="CM_BtnRun"    Grid.Column="0"
+                    Content="▶  Run Updates"
+                    Style="{StaticResource OrangeBtn}" Height="30"
+                    IsEnabled="False"
+                    ToolTip="Process all Pending Update rows"/>
+
+            <Button x:Name="CM_BtnStop"   Grid.Column="2"
+                    Content="⏹ Stop"
+                    Style="{StaticResource RedBtn}" Height="30"
+                    IsEnabled="False" Visibility="Collapsed"/>
+
+            <TextBlock x:Name="CM_StatusBar" Grid.Column="4"
+                       Foreground="#7F8C8D" FontSize="11"
+                       VerticalAlignment="Center"
+                       Text="Import a file to begin"/>
+
+            <TextBlock x:Name="CM_SelCount" Grid.Column="6"
+                       Foreground="#2980B9" FontSize="11" FontWeight="Bold"
+                       VerticalAlignment="Center"
+                       Text="0 selected"/>
+
+            <Button x:Name="CM_BtnExport"  Grid.Column="8"
+                    Content="📤 Export Excel"
+                    Style="{StaticResource GreenBtn}" Height="30"
+                    IsEnabled="False"
+                    ToolTip="Export current grid data to XLSX"/>
+        </Grid>
+    </Border>
+
+</Grid>

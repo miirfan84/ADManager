@@ -1,0 +1,9 @@
+# ADManager Git Ignore
+*.xlsx
+*.csv
+*.log
+test.ps1
+.vscode/
+temp/
+*.tmp
+*.bak

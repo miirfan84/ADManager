@@ -1,0 +1,246 @@
+<Window xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="AD Manager v2.0"
+        Height="800" Width="1320"
+        MinHeight="620" MinWidth="920"
+        WindowStartupLocation="CenterScreen"
+        Background="#1A252F"
+        FontFamily="Segoe UI">
+
+    <Window.Resources>
+
+        <!-- ── Reusable button template ──────────────────────────────────── -->
+        <ControlTemplate x:Key="RoundBtn" TargetType="Button">
+            <Border x:Name="Bd" Background="{TemplateBinding Background}"
+                    CornerRadius="4" Padding="{TemplateBinding Padding}">
+                <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+            </Border>
+            <ControlTemplate.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter TargetName="Bd" Property="Opacity" Value="0.82"/>
+                </Trigger>
+                <Trigger Property="IsPressed" Value="True">
+                    <Setter TargetName="Bd" Property="Opacity" Value="0.65"/>
+                </Trigger>
+                <Trigger Property="IsEnabled" Value="False">
+                    <Setter TargetName="Bd" Property="Opacity" Value="0.35"/>
+                </Trigger>
+            </ControlTemplate.Triggers>
+        </ControlTemplate>
+
+        <Style x:Key="BaseBtn" TargetType="Button">
+            <Setter Property="Foreground"       Value="White"/>
+            <Setter Property="FontSize"         Value="12"/>
+            <Setter Property="FontWeight"       Value="SemiBold"/>
+            <Setter Property="Padding"          Value="12,6"/>
+            <Setter Property="BorderThickness"  Value="0"/>
+            <Setter Property="Cursor"           Value="Hand"/>
+            <Setter Property="Template"         Value="{StaticResource RoundBtn}"/>
+        </Style>
+
+        <Style x:Key="GreenBtn"  BasedOn="{StaticResource BaseBtn}" TargetType="Button">
+            <Setter Property="Background" Value="#27AE60"/>
+        </Style>
+        <Style x:Key="RedBtn"    BasedOn="{StaticResource BaseBtn}" TargetType="Button">
+            <Setter Property="Background" Value="#C0392B"/>
+        </Style>
+
+        <Style x:Key="GrayBtn"   BasedOn="{StaticResource BaseBtn}" TargetType="Button">
+            <Setter Property="Background" Value="#566573"/>
+            <Setter Property="Padding"    Value="10,4"/>
+            <Setter Property="FontSize"   Value="11"/>
+        </Style>
+
+        <!-- ── TextBox ───────────────────────────────────────────────────── -->
+        <Style x:Key="ConnTextBox" TargetType="TextBox">
+            <Setter Property="Background"      Value="#2C3E50"/>
+            <Setter Property="Foreground"      Value="#ECF0F1"/>
+            <Setter Property="BorderBrush"     Value="#4A6278"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="Padding"         Value="6,4"/>
+            <Setter Property="CaretBrush"      Value="White"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+        </Style>
+
+        <!-- ── PasswordBox ───────────────────────────────────────────────── -->
+        <Style x:Key="ConnPwdBox" TargetType="PasswordBox">
+            <Setter Property="Background"      Value="#2C3E50"/>
+            <Setter Property="Foreground"      Value="#ECF0F1"/>
+            <Setter Property="BorderBrush"     Value="#4A6278"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="Padding"         Value="6,4"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+        </Style>
+
+        <!-- ── Tab styling ───────────────────────────────────────────────── -->
+        <Style TargetType="TabControl">
+            <Setter Property="Background"      Value="#1A252F"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Padding"         Value="0"/>
+        </Style>
+
+        <Style TargetType="TabItem">
+            <Setter Property="Background"      Value="#243447"/>
+            <Setter Property="Foreground"      Value="#BDC3C7"/>
+            <Setter Property="FontSize"        Value="13"/>
+            <Setter Property="FontWeight"      Value="SemiBold"/>
+            <Setter Property="Padding"         Value="18,9"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Margin"          Value="0,0,2,0"/>
+            <Style.Triggers>
+                <Trigger Property="IsSelected" Value="True">
+                    <Setter Property="Background" Value="#2C3E50"/>
+                    <!-- Use dark text since Windows overriding themes draw selected tabs white -->
+                    <Setter Property="Foreground" Value="#1A252F"/>
+                </Trigger>
+                <Trigger Property="IsEnabled" Value="False">
+                    <Setter Property="Opacity" Value="0.5"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
+    </Window.Resources>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>   <!-- R0: Header bar      -->
+            <RowDefinition Height="Auto"/>   <!-- R1: Connection bar  -->
+            <RowDefinition Height="*"/>      <!-- R2: Plugin tabs     -->
+            <RowDefinition Height="Auto"/>   <!-- R3: Status bar      -->
+        </Grid.RowDefinitions>
+
+        <!-- ═══════════════════════════════════════════════════════════════ -->
+        <!-- R0 — Header                                                    -->
+        <!-- ═══════════════════════════════════════════════════════════════ -->
+        <Border Grid.Row="0" Background="#2C3E50" Padding="16,10">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+
+                <!-- Title -->
+                <StackPanel Grid.Column="0" Orientation="Horizontal" VerticalAlignment="Center">
+                    <TextBlock Text="🗂 " FontSize="22" VerticalAlignment="Center"/>
+                    <TextBlock Text="AD Manager" FontSize="20" FontWeight="Bold"
+                               Foreground="White" VerticalAlignment="Center"/>
+                    <TextBlock Text=" v2.0" FontSize="13" Foreground="#7F8C8D"
+                               VerticalAlignment="Bottom" Margin="2,0,12,2"/>
+                    
+                    <!-- Reload button -->
+                    <Button x:Name="BtnReloadPlugins" Content="🔄 Reload Plugins"
+                            Style="{StaticResource GrayBtn}"
+                            VerticalAlignment="Center" Margin="10,0,0,0"
+                            ToolTip="Reload all plugins (UI + Logic) without restarting"/>
+                </StackPanel>
+
+                <!-- Connection status indicator -->
+                <StackPanel Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center">
+                    <Ellipse x:Name="ConnStatusDot" Width="10" Height="10"
+                             VerticalAlignment="Center" Margin="0,0,7,0">
+                        <Ellipse.Fill>
+                            <SolidColorBrush Color="#E74C3C"/>
+                        </Ellipse.Fill>
+                    </Ellipse>
+                    <TextBlock x:Name="ConnStatusLabel" Text="Not Connected"
+                               Foreground="#7F8C8D" FontSize="12" VerticalAlignment="Center"/>
+                </StackPanel>
+            </Grid>
+        </Border>
+
+        <!-- ═══════════════════════════════════════════════════════════════ -->
+        <!-- R1 — Connection bar                                            -->
+        <!-- ═══════════════════════════════════════════════════════════════ -->
+        <Border Grid.Row="1" Background="#1E2D3D"
+                BorderBrush="#34495E" BorderThickness="0,0,0,1" Padding="14,9">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>   <!-- label DC    -->
+                    <ColumnDefinition Width="190"/>    <!-- DC input    -->
+                    <ColumnDefinition Width="10"/>     <!-- gap         -->
+                    <ColumnDefinition Width="Auto"/>   <!-- label User  -->
+                    <ColumnDefinition Width="155"/>    <!-- User input  -->
+                    <ColumnDefinition Width="10"/>     <!-- gap         -->
+                    <ColumnDefinition Width="Auto"/>   <!-- label Pwd   -->
+                    <ColumnDefinition Width="140"/>    <!-- Pwd input   -->
+                    <ColumnDefinition Width="10"/>     <!-- gap         -->
+                    <ColumnDefinition Width="105"/>    <!-- Connect     -->
+                    <ColumnDefinition Width="6"/>      <!-- gap         -->
+                    <ColumnDefinition Width="115"/>    <!-- Disconnect  -->
+                    <ColumnDefinition Width="*"/>      <!-- spacer      -->
+                    <ColumnDefinition Width="Auto"/>   <!-- status msg  -->
+                </Grid.ColumnDefinitions>
+
+                <TextBlock Grid.Column="0" Text="DC / IP:"
+                           Foreground="#95A5A6" FontSize="12"
+                           VerticalAlignment="Center" Margin="0,0,7,0"/>
+                <TextBox x:Name="TxtDCName" Grid.Column="1"
+                         Style="{StaticResource ConnTextBox}"
+                         Height="28" VerticalAlignment="Center"
+                         ToolTip="Domain Controller hostname or IP address"/>
+
+                <TextBlock Grid.Column="3" Text="Username:"
+                           Foreground="#95A5A6" FontSize="12"
+                           VerticalAlignment="Center" Margin="0,0,7,0"/>
+                <TextBox x:Name="TxtUsername" Grid.Column="4"
+                         Style="{StaticResource ConnTextBox}"
+                         Height="28" VerticalAlignment="Center"
+                         Text="DOMAIN\user"
+                         ToolTip="Format: DOMAIN\username"/>
+
+                <TextBlock Grid.Column="6" Text="Password:"
+                           Foreground="#95A5A6" FontSize="12"
+                           VerticalAlignment="Center" Margin="0,0,7,0"/>
+                <PasswordBox x:Name="PwdPassword" Grid.Column="7"
+                             Style="{StaticResource ConnPwdBox}"
+                             Height="28" VerticalAlignment="Center"/>
+
+                <Button x:Name="BtnConnect" Grid.Column="9"
+                        Content="🔌 Connect" Style="{StaticResource GreenBtn}"
+                        Height="28" VerticalAlignment="Center"/>
+
+                <Button x:Name="BtnDisconnect" Grid.Column="11"
+                        Content="✖ Disconnect" Style="{StaticResource RedBtn}"
+                        Height="28" VerticalAlignment="Center"
+                        IsEnabled="False"/>
+
+                <TextBlock x:Name="TxtConnMessage" Grid.Column="13"
+                           FontSize="12" FontStyle="Italic"
+                           VerticalAlignment="Center" Margin="12,0,0,0"
+                           TextWrapping="NoWrap"
+                           Foreground="#E74C3C"/>
+            </Grid>
+        </Border>
+
+        <!-- ═══════════════════════════════════════════════════════════════ -->
+        <!-- R2 — Plugin TabControl (plugins inject their TabItems here)    -->
+        <!-- ═══════════════════════════════════════════════════════════════ -->
+        <TabControl x:Name="MainTabControl" Grid.Row="2" Margin="6,6,6,4"/>
+
+        <!-- ═══════════════════════════════════════════════════════════════ -->
+        <!-- R3 — Status bar                                                -->
+        <!-- ═══════════════════════════════════════════════════════════════ -->
+        <Border Grid.Row="3" Background="#141E27"
+                BorderBrush="#2C3E50" BorderThickness="0,1,0,0" Padding="12,5">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="220"/>
+                </Grid.ColumnDefinitions>
+
+                <TextBlock x:Name="TxtStatusBar" Grid.Column="0"
+                           Foreground="#7F8C8D" FontSize="11"
+                           VerticalAlignment="Center"
+                           Text="Ready — connect to a domain controller to begin"/>
+
+                <ProgressBar x:Name="ProgressBar" Grid.Column="1"
+                             Height="5" VerticalAlignment="Center"
+                             Background="#2C3E50" Foreground="#2980B9"
+                             BorderThickness="0"
+                             Minimum="0" Maximum="100" Value="0"
+                             Visibility="Collapsed"/>
+            </Grid>
+        </Border>
+
+    </Grid>
+</Window>
