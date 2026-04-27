@@ -1,4 +1,13 @@
+<p align="center">
+  <img src="assets/logo.png" width="200" alt="iDM Logo">
+</p>
+
 # 🚀 iDM — Intelligent Directory Manager
+
+[![PowerShell](https://img.shields.io/badge/PowerShell-5.1%20%7C%207.2+-blue?logo=powershell&logoColor=white)](https://microsoft.com/powershell)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![WPF](https://img.shields.io/badge/UI-WPF-blueviolet)](https://github.com/dotnet/wpf)
+[![Maintained](https://img.shields.io/badge/Maintained%3F-yes-green.svg)](https://github.com/miirfan84/ADManager/graphs/commit-activity)
 
 iDM (Identity Data Manager) is a high-performance, modular PowerShell framework designed for enterprise-scale Active Directory operations. Built with a WPF modern interface and a robust plugin architecture, it allows administrators to perform bulk tasks with speed, safety, and precision.
 
