@@ -49,6 +49,7 @@ ADManager/
 │   ├── UserManagement      # Account Lifecycle Management
 │   ├── ComputerMapper      # Bulk Hardware/AD Synchronization
 │   ├── OUMover             # Organizational Unit Relocation
+│   ├── DnsManager          # High-Speed DNS Record Administration
 │   └── SyncManager         # Identity Synchronization
 └── UI/                     # Presentation Layer (XAML)
 ```
@@ -109,4 +110,4 @@ Refer to the internal [Plugin Documentation](PLUGINS_README.md) for full API det
 
 ---
 
-*Built with ❤️ for Active Directory Administrators.*
+*Built with ❤️ for Active Directory Administrators by Muhammad Irfan.*
