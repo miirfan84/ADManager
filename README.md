@@ -63,6 +63,9 @@ Automates the synchronization between inventory reports and Active Directory. Su
 ### 👤 User Management
 A comprehensive tool for user account maintenance, password resets, and account status auditing.
 
+### 🌐 DNS Manager
+A high-performance remote DNS management tool. Capable of executing high-speed, remote wildcard and exact match searches across Active Directory DNS zones using PowerShell Remoting (WinRM). Provides a real-time, interactive UI for bulk operations without requiring direct DC login.
+
 ### 📁 OU Mover
 Safely transition Active Directory objects across OU hierarchies with validation and logging.
 

@@ -285,6 +285,10 @@ function Register-ShellConnectionHandlers {
                 
                 # 2. Re-import
                 Import-Plugins -TabControl $Script:Shell['MainTabControl'] -PluginsRoot $Script:PluginsDir
+
+                # 3. Fire connection event so freshly-registered handlers pick up current state
+                #    Without this, plugins loaded while already connected never receive Connected=$true
+                Invoke-PluginConnectionEvent -Connected (Get-AppConnected)
                 
                 Set-ShellStatus -Text "✅ Plugins reloaded successfully"
             } catch {

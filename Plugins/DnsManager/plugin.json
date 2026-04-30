@@ -1,0 +1,8 @@
+{
+  "Id":          "DnsManager",
+  "TabTitle":    "🌐 DNS Manager",
+  "Description": "View, create, update, convert, and delete DNS A and CNAME records on the DC",
+  "Version":     "1.0",
+  "Author":      "AD Manager Core",
+  "Order":       25
+}
